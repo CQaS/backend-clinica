@@ -1,0 +1,65 @@
+Instalaciones basicas Globales.
+
+npm install -g @nestjs/cli
+Verificar version:
+nest --version
+
+script PostgreSQL de prueba:
+
+-- Crear los tipos ENUM requeridos
+CREATE TYPE estados_usuarios AS ENUM ('ACTIVO', 'BAJA');
+CREATE TYPE roles_usuarios AS ENUM ('MEDICO', 'PACIENTE', 'ADMINISTRADOR');
+
+-- Crear la tabla usuarios
+CREATE TABLE usuarios (
+    id SERIAL PRIMARY KEY,
+    documento TEXT NOT NULL UNIQUE,
+    apellidos TEXT NOT NULL,
+    nombres TEXT NOT NULL,
+    email TEXT NOT NULL,
+    clave TEXT NOT NULL,
+    estado estados_usuarios NOT NULL DEFAULT 'ACTIVO',
+    rol roles_usuarios NOT NULL
+);
+
+-- Insertar datos de prueba 
+INSERT INTO usuarios (documento, apellidos, nombres, email, clave, estado, rol)
+VALUES 
+('11111111', 'Gómez', 'Ana', 'ana.gomez@medico.com', '123456', 'ACTIVO', 'MEDICO'),
+('22222222', 'Pérez', 'Juan', 'juan.perez@paciente.com', '123456', 'ACTIVO', 'PACIENTE'),
+('33333333', 'López', 'María', 'maria.lopez@admin.com', '123456', 'ACTIVO', 'ADMINISTRADOR');
+
+
+Crear .env y pegar la cadena de conexión a la base de datos que les da PostgreSQL, algo asi:
+
+si es en la Nube =>
+DATABASE_URL=postgresql://usuario:contraseña@ep-ejemplo.us-east-2.aws.neon.tech/neondb?sslmode=require
+
+si es en local =>
+DATABASE_URL=postgresql://postgres:TU_CONTRASEÑA@localhost:5432/clinica_db
+
+Crear nuevo proyecto en Nestjs:
+nest new backend-clinica
+
+Instalar Dependencias.
+TypeORM:
+npm install @nestjs/typeorm@10.0.2 typeorm@0.3.20 pg @nestjs/config --save-exact --legacy-peer-deps
+
+Compilar: 
+npm run build
+
+Iniciar PM2:
+pm2 start dist/main.js --name "backend-clinica"
+
+verificar el status(online):
+pm2 status
+
+si dice (stopped), ver errores en log:
+pm2 logs backend-clinica --lines 20
+
+si deice (online), en navegador ver si llega el json con los datos de usuarios de prueba:
+http://localhost:3000/api/usuarios
+
+Ayuda importante!!!
+Para no estar compilando a cada rato con cada cambio que se realice, ejecutar en desarrollo:
+npm run start:dev esto reinicia el servidor con cada cambio guardado!
