@@ -41,10 +41,6 @@ DATABASE_URL=postgresql://postgres:TU_CONTRASEÑA@localhost:5432/clinica_db
 Crear nuevo proyecto en Nestjs:
 nest new backend-clinica
 
-Instalar Dependencias.
-TypeORM:
-npm install @nestjs/typeorm@10.0.2 typeorm@0.3.20 pg @nestjs/config --save-exact --legacy-peer-deps
-
 Compilar: 
 npm run build
 

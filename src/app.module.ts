@@ -1,10 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UsuarioEntidad } from './entidades/usuario.entity';
-import { FabricaUsuariosServicio } from './fabrica/fabrica-usuarios.service';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { UsuarioModule } from './modules/usuarios/usuario.module';
 
 @Module({
   imports: [
@@ -12,13 +9,11 @@ import { AppService } from './app.service';
     TypeOrmModule.forRoot({
       type: 'postgres',
       url: process.env.DATABASE_URL,
-      entities: [UsuarioEntidad],
-      synchronize: false, // En falso porque ya creamos la tabla en Neon
+      autoLoadEntities: true,
+      synchronize: false,
       ssl: { rejectUnauthorized: false },
     }),
-    TypeOrmModule.forFeature([UsuarioEntidad]),
+    UsuarioModule,
   ],
-  controllers: [AppController],
-  providers: [AppService, FabricaUsuariosServicio],
 })
 export class AppModule {}
