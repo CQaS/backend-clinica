@@ -11,6 +11,7 @@ import { UsuarioModule } from './modules/usuarios/usuario.module';
       url: process.env.DATABASE_URL,
       autoLoadEntities: true,
       synchronize: false,
+      //synchronize: true, // Solo para desarrollo, no usar en producción, crea automáticamente las tablas en la base de datos según las entidades definidas en el código.
       ssl: { rejectUnauthorized: false },
     }),
     UsuarioModule,

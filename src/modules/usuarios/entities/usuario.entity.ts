@@ -35,7 +35,4 @@ export class Usuario {
     default: Rol.PACIENTE,
   })
   rol: Rol;
-
-  @Column({ nullable: true })
-  mensajePersonalizado?: string;
 }
