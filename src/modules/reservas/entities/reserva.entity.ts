@@ -1,21 +1,43 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
-import { medico } from '../../medicos/entities/medico.entity';
-
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
+import { Medico } from '../../medicos/entities/medico.entity';
+import { Usuario } from '../../usuarios/entities/usuario.entity';
+import { EstadoReserva } from '../enums/estado-reserva';
 
 @Entity('reservas')
-export class reserva {
-    @PrimaryGeneratedColumn()
-    id: number;
+export class Reserva {
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column({name:'id_medico'})
-    idMedico: number;
+  @Column({ name: 'id_medico', type: 'int' })
+  idMedico: number;
 
-    @Column({name:'id_paciente'})
-    idPaciente: number;
+  @Column({ name: 'id_paciente', type: 'int' })
+  idPaciente: number;
 
-    @Column({type:'datetime', default:() => 'CURRENT_TIMESTAMP'})
-    fechaHora: Date;
+  @Column({ name: 'fecha_hora', type: 'timestamp' })
+  fechaHora: Date;
 
-    @Column({name:'valor_consulta'})
-    valorConsulta: number;
+  @Column({
+    type: 'enum',
+    enum: EstadoReserva,
+    default: EstadoReserva.ACTIVO,
+  })
+  estado: EstadoReserva;
+
+  @Column({ name: 'valor_consulta', type: 'int' })
+  valorConsulta: number;
+
+  @ManyToOne(() => Medico)
+  @JoinColumn({ name: 'id_medico' })
+  medico: Medico;
+
+  @ManyToOne(() => Usuario)
+  @JoinColumn({ name: 'id_paciente' })
+  paciente: Usuario;
 }

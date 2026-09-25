@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
-import { reserva } from './entities/reserva.entity';
+import { Reserva } from './entities/reserva.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
-    imports: [TypeOrmModule.forFeature([reserva])],
+  imports: [TypeOrmModule.forFeature([Reserva])],
 })
-export class reservaModule {}
+export class ReservaModule {}

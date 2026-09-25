@@ -1,21 +1,27 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  OneToOne,
+  JoinColumn,
+} from 'typeorm';
 import { Usuario } from '../../usuarios/entities/usuario.entity';
 
 @Entity('medicos')
-export class medico {
-    @PrimaryGeneratedColumn()
-    id: number;
+export class Medico {
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column({name:'id_usuario'})
-    idUsuario: number;
+  @Column({ name: 'id_usuario', type: 'int' })
+  idUsuario: number;
 
-    @ManyToOne(()=>Usuario)
-    @JoinColumn({name:'id_usuario'})
-    Usuario: Usuario
+  @OneToOne(() => Usuario)
+  @JoinColumn({ name: 'id_usuario' })
+  usuario: Usuario;
 
-    @Column()
-    matricula: number;
+  @Column({ type: 'int' })
+  matricula: number;
 
-    @Column({name:'valor_consulta'})
-    valorConsulta: number;
+  @Column({ name: 'valor_consulta', type: 'int' })
+  valorConsulta: number;
 }
