@@ -23,10 +23,4 @@ export class RespuestaUsuarioDto {
 
   @ApiProperty({ enum: Rol, example: Rol.PACIENTE })
   rol: Rol;
-
-  @ApiProperty({ example: 'Bienvenido Juan Pérez' })
-  mensajeBienvenida: string;
-
-  @ApiProperty({ example: ['SOLICITAR_CITA', 'VER_MIS_CITAS'], type: [String] })
-  permisos: string[];
 }
