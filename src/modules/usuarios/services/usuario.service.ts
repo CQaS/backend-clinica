@@ -23,12 +23,18 @@ export class UsuarioService {
     };
   }
 
-  async obtenerPorId(id: number): Promise<Usuario> {
+  //No necesita DTO porque es un método interno que devuelve la entidad Usuario directamente "AuthService"
+  async buscarPorEmail(email: string): Promise<Usuario | null> {
+    const usuario = await this.usuarioRepository.findOne({ where: { email } });
+    return usuario || null;
+  }
+
+  async obtenerPorId(id: number): Promise<RespuestaUsuarioDto> {
     const usuario = await this.usuarioRepository.findOne({ where: { id } });
     if (!usuario) {
       throw new NotFoundException(`Usuario con ID ${id} no encontrado`);
     }
-    return usuario;
+    return this.mapearARespuestaDto(usuario);
   }
 
   async obtenerTodos(): Promise<RespuestaUsuarioDto[]> {
