@@ -11,6 +11,7 @@ export class UsuarioController {
   @Get()
   @ApiOperation({ summary: 'Obtener lista de usuarios' })
   @ApiResponse({ status: 200, type: [RespuestaUsuarioDto] })
+  @ApiResponse({ status: 404, description: 'No se encontraron usuarios' })
   async obtenerTodos(): Promise<RespuestaUsuarioDto[]> {
     return await this.usuarioService.obtenerTodos();
   }
