@@ -53,8 +53,11 @@ pm2 status
 si dice (stopped), ver errores en log:
 pm2 logs backend-clinica --lines 20
 
+reiniciar pm2:
+pm2 restart all
+
 si deice (online), en navegador ver si llega el json con los datos de usuarios de prueba:
-http://localhost:3000/api/usuarios
+http://localhost:3000/api/v1/usuarios
 
 Ayuda importante!!!
 Para no estar compilando a cada rato con cada cambio que se realice, ejecutar en desarrollo:

@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsuarioModule } from './modules/usuarios/usuario.module';
 import { AuthModule } from './modules/auth/auth.module';
@@ -7,13 +7,36 @@ import { AuthModule } from './modules/auth/auth.module';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      url: process.env.DATABASE_URL,
-      autoLoadEntities: true,
-      synchronize: false,
-      //synchronize: true, // Solo para desarrollo, no usar en producción, crea automáticamente las tablas en la base de datos según las entidades definidas en el código.
-      ssl: { rejectUnauthorized: false },
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => {
+        const urlConexion = configService.get<string>('DATABASE_URL');
+
+        return {
+          type: 'postgres',
+          ...(urlConexion
+            ? { url: urlConexion }
+            : {
+                host: configService.get<string>('DB_HOST'),
+                port: parseInt(
+                  configService.get<string>('DB_PORT') || '5432',
+                  10,
+                ),
+                username: configService.get<string>('DB_USERNAME'),
+                password: configService.get<string>('DB_PASSWORD'),
+                database: configService.get<string>('DB_NAME'),
+              }),
+          autoLoadEntities: true,
+          synchronize: false,
+          logging: configService.get<string>('DB_LOGGING') === 'true',
+          logger: 'advanced-console',
+          ssl:
+            urlConexion || configService.get<string>('DB_SSL') === 'true'
+              ? { rejectUnauthorized: false }
+              : false,
+        };
+      },
     }),
     UsuarioModule,
     AuthModule,
