@@ -1,5 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
 import { medico } from '../../medicos/entities/medico.entity';
+import { EstadoReserva } from '../enums/estado-reserva';
 
 
 @Entity('reservas')
@@ -18,4 +19,7 @@ export class reserva {
 
     @Column({name:'valor_consulta'})
     valorConsulta: number;
+
+    @Column({type: 'enum', enum: EstadoReserva, default: EstadoReserva})
+    estado: EstadoReserva;
 }
