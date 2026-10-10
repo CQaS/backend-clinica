@@ -14,7 +14,7 @@ import { UsuarioModule } from './modules/usuarios/usuario.module';
       synchronize: false,
       ssl: false,
     }),
-    */
+    
     UsuarioModule,
   ],
 })
