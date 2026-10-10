@@ -6,7 +6,7 @@ import { UsuarioModule } from './modules/usuarios/usuario.module';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
-    /*
+    
     TypeOrmModule.forRoot({
       type: 'postgres',
       url: process.env.DATABASE_URL,
