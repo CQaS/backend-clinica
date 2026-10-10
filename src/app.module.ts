@@ -38,6 +38,7 @@ import { AuthModule } from './modules/auth/auth.module';
         };
       },
     }),
+
     UsuarioModule,
     AuthModule,
   ],
