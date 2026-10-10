@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { reserva } from './entities/reserva.entity';
+import { Reserva } from './entities/reserva.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ReservaService } from './services/reservas.service';
 
@@ -8,4 +8,4 @@ import { ReservaService } from './services/reservas.service';
     providers: [ReservaService],
     export: [ReservaService],
 })
-export class reservaModule {}
+export class ReservaModule {}
