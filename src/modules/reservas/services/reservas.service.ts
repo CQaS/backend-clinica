@@ -1,12 +1,10 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Reserva } from './entities/reserva.entity';
 import { CrearReservaDto } from '../dtos/inputs/crear.reserva.dtos';
-import { RespuestaReservaDto } from '../dtos/outputs/respuesta.reserva.dtos';
 import { EstadoReserva } from '../enums/estado-reserva';
 import { CambiarEstadoReservaDto } from '../dtos/inputs/cambiar.estado.reserva.dtos';
-import { reserva } from '../entities/reserva.entity';
+import { Reserva } from '../entities/reserva.entity';
 
 @Injectable()
 export class ReservaService {
@@ -15,18 +13,15 @@ export class ReservaService {
     private readonly reservaRepository: Repository<Reserva>,
   ) {}
 
-  async crear(crearReservaDto: CrearReservaDto): Promise<RespuestaReservaDto> {
+  async crear(crearReservaDto: CrearReservaDto): Promise<Reserva> {
     const nuevaReserva = this.reservaRepository.create(crearReservaDto);
-    const reservaGuardada = await this.reservaRepository.save(nuevaReserva);
-    
-    return reservaGuardada;
+    return await this.reservaRepository.save(nuevaReserva);
   }
 
-  async obtenerTodos(): Promise<RespuestaReservaDto[]> {
-    const reservas = await this.reservaRepository.find();
-
-    return reservas;
+  async obtenerTodos(): Promise<Reserva[]> {
+    return await this.reservaRepository.find();
   }
+
 
   async cancelarReserva(id: number): Promise<Reserva> {
     const reserva = await this.reservaRepository.findOneBy({id});
@@ -42,7 +37,7 @@ export class ReservaService {
 
 }
 
-async cambiarEstado(id: number, CambiarEstadoReservaDto: CambiarEstadoReservaDto): Promise<reserva> {
+async cambiarEstado(id: number, CambiarEstadoReservaDto: CambiarEstadoReservaDto): Promise<Reserva> {
     const reserva = await this.reservaRepository.findOneBy({id});
 
     if (!reserva) {
