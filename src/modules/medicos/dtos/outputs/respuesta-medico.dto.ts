@@ -12,4 +12,13 @@ export class RespuestaMedicoDto {
 
   @ApiProperty({ example: 15000 })
   valor_consulta: number;
+
+  @ApiProperty({ example: 'Pérez' })
+  apellidos?: string;
+
+  @ApiProperty({ example: 'Juan' })
+  nombres?: string;
+
+  @ApiProperty({ example: 'medico@clinica.com' })
+  email?: string;
 }
