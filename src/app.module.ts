@@ -3,6 +3,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsuarioModule } from './modules/usuarios/usuario.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { ReservaModule } from './modules/reservas/reserva.module';
+import { MedicosModule } from './modules/medicos/medico.module';
 
 @Module({
   imports: [
@@ -40,6 +42,8 @@ import { AuthModule } from './modules/auth/auth.module';
     }),
 
     UsuarioModule,
+    ReservaModule,
+    MedicosModule,
     AuthModule,
   ],
 })
