@@ -54,7 +54,7 @@ export class MedicoService {
 
   async obtenerPorUsuarioId(idUsuario: number): Promise<Medico> {
     const medico = await this.medicoRepository.findOne({
-      where: { idUsuario },
+      where: { idUsuario: idUsuario },
       relations: ['usuario'],
     });
 

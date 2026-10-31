@@ -15,10 +15,10 @@ export class Reserva {
   id: number;
 
   @Column({ name: 'id_medico', type: 'int' })
-  idMedico: number;
+  medicoId: number;
 
   @Column({ name: 'id_paciente', type: 'int' })
-  idPaciente: number;
+  pacienteId: number;
 
   @Column({ name: 'fecha_hora', type: 'timestamp' })
   fechaHora: Date;
