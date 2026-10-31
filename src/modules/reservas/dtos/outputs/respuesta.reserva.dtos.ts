@@ -6,10 +6,10 @@ export class RespuestaReservaDto {
   id: number;
 
   @ApiProperty({ example: '1' })
-  idMedico: number;
+  medicoId: number;
 
   @ApiProperty({ example: '1' })
-  idPaciente: number;
+  pacienteId: number;
 
   @ApiProperty({ example: '10-10-2026T10:00:00' })
   fechaHora: Date | string;

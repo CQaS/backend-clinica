@@ -24,24 +24,25 @@ export class ReservaService {
 
   async crear(
     dto: CrearReservaDto,
-    usuarioAuth: { id: number; rol: string },
+    usuarioAuth: { id?: number; sub?: number; rol: string },
   ): Promise<RespuestaReservaDto> {
-    const idPaciente =
-      usuarioAuth.rol === 'PACIENTE' ? usuarioAuth.id : dto.idPaciente;
+    const userId = usuarioAuth.id || usuarioAuth.sub;
 
-    if (!idPaciente) {
+    const pacienteId = usuarioAuth.rol === 'PACIENTE' ? userId : dto.pacienteId;
+
+    if (!pacienteId) {
       throw new BadRequestException(
-        'Debe especificar el idPaciente para crear la reserva',
+        'Debe especificar el pacienteId para crear la reserva',
       );
     }
 
     const medico = await this.medicoRepository.findOne({
-      where: { id: dto.idMedico },
+      where: { id: dto.medicoId },
     });
 
     if (!medico) {
       throw new NotFoundException(
-        `Médico con ID ${dto.idMedico} no encontrado`,
+        `Médico con ID ${dto.medicoId} no encontrado`,
       );
     }
 
@@ -74,7 +75,7 @@ export class ReservaService {
 
     const reservaExistente = await this.reservaRepository.findOne({
       where: {
-        idMedico: dto.idMedico,
+        medicoId: dto.medicoId,
         fechaHora: fechaTurno,
         estado: EstadoReserva.ACTIVO,
       },
@@ -87,8 +88,8 @@ export class ReservaService {
     }
 
     const nuevaReserva = this.reservaRepository.create({
-      idMedico: dto.idMedico,
-      idPaciente: idPaciente,
+      medicoId: dto.medicoId,
+      pacienteId: pacienteId,
       fechaHora: fechaTurno,
       valorConsulta: medico.valorConsulta,
       estado: EstadoReserva.ACTIVO,
@@ -109,12 +110,20 @@ export class ReservaService {
       .leftJoinAndSelect('reserva.paciente', 'paciente');
 
     if (usuarioAuth.rol === 'PACIENTE') {
-      query.andWhere('reserva.idPaciente = :idPaciente', {
-        idPaciente: usuarioAuth.id,
+      query.andWhere('reserva.pacienteId = :pacienteId', {
+        pacienteId: usuarioAuth.id,
       });
     } else if (usuarioAuth.rol === 'MEDICO') {
-      query.andWhere('medico.idUsuario = :idUsuarioMedico', {
-        idUsuarioMedico: usuarioAuth.id,
+      const medico = await this.medicoRepository.findOne({
+        where: { idUsuario: usuarioAuth.id },
+      });
+
+      if (!medico) {
+        return [];
+      }
+
+      query.andWhere('reserva.id_medico = :medicoId', {
+        medicoId: medico.id,
       });
     }
 
@@ -141,7 +150,7 @@ export class ReservaService {
     }
 
     if (usuarioAuth.rol === 'PACIENTE') {
-      if (reserva.idPaciente !== usuarioAuth.id) {
+      if (reserva.pacienteId !== usuarioAuth.id) {
         throw new ForbiddenException(
           'No tienes permiso para cancelar esta reserva',
         );
@@ -182,8 +191,8 @@ export class ReservaService {
   private mapearARespuestaDto(reserva: Reserva): RespuestaReservaDto {
     return {
       id: reserva.id,
-      idMedico: reserva.idMedico,
-      idPaciente: reserva.idPaciente,
+      medicoId: reserva.medicoId,
+      pacienteId: reserva.pacienteId,
       fechaHora: reserva.fechaHora,
       valorConsulta: Number(reserva.valorConsulta),
       estado: reserva.estado,

@@ -3,9 +3,9 @@ import { IsDateString, IsNotEmpty, IsInt, IsOptional } from 'class-validator';
 
 export class CrearReservaDto {
   @ApiProperty({ example: 1, description: 'ID del médico registrado' })
-  @IsInt({ message: 'El idMedico debe ser un número entero' })
-  @IsNotEmpty({ message: 'El idMedico no puede estar vacío' })
-  idMedico: number;
+  @IsInt({ message: 'El medicoId debe ser un número entero' })
+  @IsNotEmpty({ message: 'El medicoId no puede estar vacío' })
+  medicoId: number;
 
   @ApiPropertyOptional({
     example: 2,
@@ -13,8 +13,8 @@ export class CrearReservaDto {
       'ID del paciente (Requerido solo si el Administrador reserva por él)',
   })
   @IsOptional()
-  @IsInt({ message: 'El idPaciente debe ser un número entero' })
-  idPaciente?: number;
+  @IsInt({ message: 'El pacienteId debe ser un número entero' })
+  pacienteId?: number;
 
   @ApiProperty({
     example: '2026-10-20T10:00:00Z',

@@ -62,3 +62,142 @@ http://localhost:3000/api/v1/usuarios
 Ayuda importante!!!
 Para no estar compilando a cada rato con cada cambio que se realice, ejecutar en desarrollo:
 npm run start:dev esto reinicia el servidor con cada cambio guardado!
+
+DB
+Enums:
+
+[{
+  "typname": "usuarios_estado_enum",
+  "enumlabel": "BAJA"
+}, {
+  "typname": "usuarios_estado_enum",
+  "enumlabel": "ACTIVO"
+}, {
+  "typname": "usuarios_rol_enum",
+  "enumlabel": "ADMINISTRADOR"
+}, {
+  "typname": "usuarios_rol_enum",
+  "enumlabel": "PACIENTE"
+}, {
+  "typname": "usuarios_rol_enum",
+  "enumlabel": "MEDICO"
+}, {
+  "typname": "estado_reserva_enum",
+  "enumlabel": "REALIZADA"
+}, {
+  "typname": "estado_reserva_enum",
+  "enumlabel": "CANCELADA"
+}, {
+  "typname": "estado_reserva_enum",
+  "enumlabel": "CONFIRMADA"
+}, {
+  "typname": "estado_reserva_enum",
+  "enumlabel": "PENDIENTE"
+}, {
+  "typname": "estados_reservas",
+  "enumlabel": "CANCELADO"
+}, {
+  "typname": "estados_reservas",
+  "enumlabel": "AUSENTE"
+}, {
+  "typname": "estados_reservas",
+  "enumlabel": "ATENDIDO"
+}, {
+  "typname": "estados_reservas",
+  "enumlabel": "ACTIVO"
+}]
+
+Tablas:
+
+[{
+  "table_name": "medicos",
+  "column_name": "id",
+  "data_type": "integer",
+  "udt_name": "int4"
+}, {
+  "table_name": "medicos",
+  "column_name": "id_usuario",
+  "data_type": "integer",
+  "udt_name": "int4"
+}, {
+  "table_name": "medicos",
+  "column_name": "matricula",
+  "data_type": "integer",
+  "udt_name": "int4"
+}, {
+  "table_name": "medicos",
+  "column_name": "valor_consulta",
+  "data_type": "integer",
+  "udt_name": "int4"
+}, {
+  "table_name": "reservas",
+  "column_name": "id",
+  "data_type": "integer",
+  "udt_name": "int4"
+}, {
+  "table_name": "reservas",
+  "column_name": "id_paciente",
+  "data_type": "integer",
+  "udt_name": "int4"
+}, {
+  "table_name": "reservas",
+  "column_name": "id_medico",
+  "data_type": "integer",
+  "udt_name": "int4"
+}, {
+  "table_name": "reservas",
+  "column_name": "fecha_hora",
+  "data_type": "timestamp without time zone",
+  "udt_name": "timestamp"
+}, {
+  "table_name": "reservas",
+  "column_name": "valor_consulta",
+  "data_type": "integer",
+  "udt_name": "int4"
+}, {
+  "table_name": "reservas",
+  "column_name": "estado",
+  "data_type": "USER-DEFINED",
+  "udt_name": "estados_reservas"
+}, {
+  "table_name": "usuarios",
+  "column_name": "id",
+  "data_type": "integer",
+  "udt_name": "int4"
+}, {
+  "table_name": "usuarios",
+  "column_name": "estado",
+  "data_type": "USER-DEFINED",
+  "udt_name": "usuarios_estado_enum"
+}, {
+  "table_name": "usuarios",
+  "column_name": "rol",
+  "data_type": "USER-DEFINED",
+  "udt_name": "usuarios_rol_enum"
+}, {
+  "table_name": "usuarios",
+  "column_name": "documento",
+  "data_type": "character varying",
+  "udt_name": "varchar"
+}, {
+  "table_name": "usuarios",
+  "column_name": "nombres",
+  "data_type": "character varying",
+  "udt_name": "varchar"
+}, {
+  "table_name": "usuarios",
+  "column_name": "apellidos",
+  "data_type": "character varying",
+  "udt_name": "varchar"
+}, {
+  "table_name": "usuarios",
+  "column_name": "email",
+  "data_type": "character varying",
+  "udt_name": "varchar"
+}, {
+  "table_name": "usuarios",
+  "column_name": "clave",
+  "data_type": "character varying",
+  "udt_name": "varchar"
+}]
+
