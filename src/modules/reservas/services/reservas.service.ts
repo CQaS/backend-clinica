@@ -135,6 +135,27 @@ export class ReservaService {
     return reservas.map((r) => this.mapearARespuestaDto(r));
   }
 
+  async obtenerDisponibilidad(
+    idMedico: number,
+    fecha: string,
+  ): Promise<string[]> {
+    const reservas = await this.reservaRepository.createQueryBuilder('reserva')
+    .where('reserva.idMedico = :idMedico', { idMedico })
+    .andWhere('DATE(reserva.fechaHora) = :fecha', { fecha })
+    .andWhere('reserva.estado = :estado', {
+      estado: EstadoReserva.ACTIVO,
+    })
+    .getMany();
+
+    return reservas.map((reserva)=> {
+      const fechaTurno = new Date(reserva.fechaHora);
+      const horas = String(fechaTurno.getHours()).padStart(2, '0');
+      const minutos = String(fechaTurno.getMinutes()).padStart(2, '0');
+
+      return `${horas}:${minutos}`;
+    })
+  }
+
   async cancelarReserva(
     id: number,
     usuarioAuth: { id: number; rol: string },
