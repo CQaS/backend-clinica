@@ -61,12 +61,13 @@ export class ReservaController {
     @Query('fecha') fecha?: string,
   ): Promise<RespuestaReservaDto[]> {
     const usuarioAuth = req['usuario'];
+    console.log('Usuario autenticado:', usuarioAuth);
     return await this.reservaService.obtenerTodas(usuarioAuth, fecha);
   }
 
   @Get('disponibilidad')
   @Roles('ADMINISTRADOR', 'PACIENTE', 'MEDICO')
-  @ApiOperation({summary: 'Consultar horarios ocupados de un medico'})
+  @ApiOperation({ summary: 'Consultar horarios ocupados de un medico' })
   async obtenerDisponibilidad(
     @Query('idMedico', ParseIntPipe) idMedico: number,
     @Query('fecha') fecha: string,
