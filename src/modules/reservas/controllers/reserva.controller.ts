@@ -24,6 +24,7 @@ import { RespuestaReservaDto } from '../dtos/outputs/respuesta.reserva.dtos';
 import { AuthGuard } from '../../auth/guards/auth.guard';
 import { RolesGuard } from '../../auth/guards/roles.guard';
 import { Roles } from '../../auth/decorators/roles.decorator';
+import { queryObjects } from 'v8';
 
 @ApiTags('reservas')
 @ApiBearerAuth()
@@ -61,6 +62,16 @@ export class ReservaController {
   ): Promise<RespuestaReservaDto[]> {
     const usuarioAuth = req['usuario'];
     return await this.reservaService.obtenerTodas(usuarioAuth, fecha);
+  }
+
+  @Get('disponibilidad')
+  @Roles('ADMINISTRADOR', 'PACIENTE', 'MEDICO')
+  @ApiOperation({summary: 'Consultar horarios ocupados de un medico'})
+  async obtenerDisponibilidad(
+    @Query('idMedico', ParseIntPipe) idMedico: number,
+    @Query('fecha') fecha: string,
+  ) {
+    return await this.reservaService.obtenerDisponibilidad(idMedico, fecha);
   }
 
   @Patch(':id/cancelar')
