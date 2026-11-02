@@ -26,6 +26,7 @@ export class Reserva {
   @Column({
     type: 'enum',
     enum: EstadoReserva,
+    enumName: 'estado_reserva',
     default: EstadoReserva.ACTIVO,
   })
   estado: EstadoReserva;
